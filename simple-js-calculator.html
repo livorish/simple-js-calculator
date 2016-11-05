@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Simple Javascript Calculator</title>
+    <meta ID="description" content="">
+    <meta ID="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+      #output{
+        height: 45px;
+        background-color: black;
+        color: aqua;
+        width: 100%;
+        font-size: 2em;
+        padding: 5px;
+        text-align: right;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      #mycalculator{
+        width: 350px;
+        background-color: #00537F;
+        height: 350px;
+        padding: 7px;
+      }
+      .cbutton{
+        font-size: 2em;
+        width: 45px;
+        margin: 10px;
+        padding: 2px;
+      }
+      .container{
+        padding: 25px;
+      }
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="mycalculator">
+      <div class="col-xs-12">
+        <div id="output"></div>
+        <div class="col-xs-12">
+          <div class="btn btn-primary cbutton">1</div>
+          <div class="btn btn-primary cbutton">2</div>
+          <div class="btn btn-primary cbutton">3</div>
+          <div class="btn btn-primary cbutton">+</div>
+        </div>
+        <div class="col-xs-12">
+          <div class="btn btn-primary cbutton">4</div>
+          <div class="btn btn-primary cbutton">5</div>
+          <div class="btn btn-primary cbutton">6</div>
+          <div class="btn btn-primary cbutton">-</div>
+        </div>
+        <div class="col-xs-12">
+          <div class="btn btn-primary cbutton">7</div>
+          <div class="btn btn-primary cbutton">8</div>
+          <div class="btn btn-primary cbutton">9</div>
+          <div class="btn btn-primary cbutton">*</div>
+        </div>
+        <div class="col-xs-12">
+          <div class="btn btn-primary cbutton">C</div>
+          <div class="btn btn-primary cbutton">/</div>
+          <div class="btn btn-primary cbutton">0</div>
+          <div class="btn btn-primary cbutton">=</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  var mybutton = document.getElementsByClassName("cbutton");
+  var myOutput = document.getElementById("output");
+  var myCal = '';
+  var myCom = false;
+  var mySwitch = false;
+  var myOpe = ["+","-","*","/"];
+
+  //console.log(mybutton);
+  for(var i = 0; i<mybutton.length;i++){
+    mybutton[i].addEventListener("click", function(){
+      var myValue = this.innerHTML;
+      if(myCom || myCal=="0"){
+        myCom = false;
+        myCal = '';
+      }
+
+      if(myValue=="+"||myValue=="-"||myValue=="*"||myValue=="/"){
+        if(mySwitch){
+          mySwitch = false;
+          if(myOpe.indexOf(myOutput.innerHTML.slice(-1))>-1){
+            myCal=myCal.substring(0,myCal.length-1);
+          }else{
+            myCal = eval(myCal);
+          }
+        }
+        mySwitch = true;
+      }
+
+      if(myValue=="="){
+        myValue = '';
+        if(myOpe.indexOf(myOutput.innerHTML.slice(-1))==-1){
+          myCal = eval(myCal);
+        }
+      }else if(myValue=="C"){
+        myCal = 0;
+        myCom = true;
+      }else if(myOutput.innerHTML.indexOf(".")>-1 && myValue == "."){
+        myValue = '';
+      }else{
+        myCal += myValue;
+      }
+      myOutput.innerHTML = myCal;
+    });
+  }
+
+  </script>
+
+</body>
+</html>
